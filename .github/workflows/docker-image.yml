@@ -1,0 +1,31 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main ]
+#  pull_request:
+#    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v1
+    - name: Login to AWS/public.ecr.aws/g7p2r3k0/bogolyandras
+      uses: docker/login-action@v1
+      with:
+        registry: public.ecr.aws/g7p2r3k0/bogolyandras
+        username: AWS
+        password: ${{ secrets.AWS_ECR_TOKEN }}
+    - name: Build and push
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: public.ecr.aws/g7p2r3k0/bogolyandras/sampleapp:latest
+
