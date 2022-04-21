@@ -22,10 +22,11 @@ jobs:
         registry: public.ecr.aws/g7p2r3k0/bogolyandras
         username: AWS
         password: ${{ secrets.AWS_ECR_TOKEN }}
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
     - name: Build and push
       uses: docker/build-push-action@v2
       with:
         context: .
         push: true
         tags: public.ecr.aws/g7p2r3k0/bogolyandras/sampleapp:latest
-
